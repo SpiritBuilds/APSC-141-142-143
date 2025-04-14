@@ -3,8 +3,6 @@
  * it should also tell the user how long it will take to complete the challenge
  * based on that info
  *
- * Student #: 20454310
- * Student Name: Mark Gebraiel
  * APSC 143 Assignment 1
  *
  */
