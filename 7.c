@@ -2,8 +2,6 @@
  * This Program computes and approximation of the area under the curve for e^x^2
  * First using LEFT Riemann sums then Taylor series approximations
  *
- * Student #: 20454310
- * Student Name: Mark Gebraiel
  * APSC 143 Assignment 7 - Functions
  *
  */
