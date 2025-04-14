@@ -1,0 +1,121 @@
+/*
+ * This Program computes and approximation of the area under the curve for e^x^2
+ * First using LEFT Riemann sums then Taylor series approximations
+ *
+ * Student #: 20454310
+ * Student Name: Mark Gebraiel
+ * APSC 143 Assignment 7 - Functions
+ *
+ */
+
+
+// Including necessary libraries for math and input handling
+#include <stdio.h>
+#include <math.h>
+
+//Function prototypes
+//bound A is the lower bound of the integral and bound B is the upper bound A and B are use as that is the standard integral notation
+//The print argument/parameter dictates if the function will print it's respective output
+double leftRieSumActual(double boundA, double boundB, int numIntervals, int print);
+double taylorSeries(double boundA, int numTerms, int print);
+double leftTaylorSum(double boundA, double boundB, int numIntervals, int print);
+double riemannError(double actualValue, double taylorValue, int numIntervals);
+
+int main(void) {
+    //Prompt user to input the bounds they are interested in and assign to corresponding variables
+    printf("Enter the bounds to compute the Riemann Sum:");
+    double boundA;
+    double boundB;
+    scanf("%lf %lf",&boundA, &boundB);
+    //Calling the functions, printing is handled by the functions and the print argument/parameter
+    //Having the function handle printing allows for a cleaner main function
+    //Results from the left Riemann sums with corresponding intervals
+    leftRieSumActual(boundA, boundB, 5, 1);
+    leftRieSumActual(boundA, boundB, 25, 1);
+    leftRieSumActual(boundA, boundB, 100, 1);
+    printf("--------------------------------------------------------\n");
+    //The Taylor series approximations of the function @ the lower bound inputted by the user
+    taylorSeries(boundA, 3, 1);
+    taylorSeries(boundA, 5, 1);
+    taylorSeries(boundA, 10, 1);
+    printf("--------------------------------------------------------\n");
+    //The left Riemann sums calculated using the highest resolution Taylor series function approximation
+    leftTaylorSum(boundA, boundB, 5, 1);
+    leftTaylorSum(boundA, boundB, 25, 1);
+    leftTaylorSum(boundA, boundB, 100, 1);
+    printf("--------------------------------------------------------\n");
+    //The error between the two values, sign shows if Taylor series is and over or underestimate
+    //of the actual value (left Riemann sum using actual function not the Taylor series approximation)
+    //Uses the returned values of the other functions as the arguments
+    riemannError(leftRieSumActual(boundA, boundB, 5, 0), leftTaylorSum(boundA, boundB, 5, 0), 5);
+    riemannError(leftRieSumActual(boundA, boundB, 25, 0), leftTaylorSum(boundA, boundB, 25, 0), 25);
+    riemannError(leftRieSumActual(boundA, boundB, 100, 0), leftTaylorSum(boundA, boundB, 100, 0), 100);
+
+    return 0;
+}
+
+//Function that calculates the left Riemann sum
+double leftRieSumActual(double boundA, double boundB, int numIntervals, int print) {
+    //Defining the width of the rectangles (δ) and initializing the sum
+    double δx = (boundB - boundA)/numIntervals;
+    double sum = 0; //Will store the sum of all the smaller rectangle areas
+
+    //i = 0 and it does not include the final value of numIntervals, because LEFT sum
+    for (int i = 0; i < numIntervals; i++) {
+        double x = boundA + δx*i; //The values of x are multiples of the width added to the lower bound (boundA)
+        double y = pow(M_E, pow(x, 2)); //Height of rectangle is calculating the function of interest
+        double area = y * δx; // Area is width times height in this case the y value times the δx
+        sum += area; //Add this area to the total
+    }
+    //In the parameter, the user can choose to print the values or not, this is useful in other functions later
+    if (print == 1) {
+        printf("Riemann Sum with %d intervals: %.2lf\n", numIntervals, sum);//Output results to user
+    }
+    return  sum; //Returning the value allows it to be used even if not being explicitly printed out
+}
+
+//Function that approximates the y and x (height) relationship of the original function
+double taylorSeries(double boundA, int numTerms, int print) {
+
+    double function = 0; //Total of all the terms
+    double factorial = 1;//Starts @ 1
+
+    // This loop calculates and adds the terms of the Taylor series simultaneously
+    for (int i = 0; i < numTerms; i++) {
+        function += pow(boundA, 2*i)/factorial; // Calculate the value of the term and add it to the total which results in the final Taylor series function after the loop ends
+        factorial *= i + 1; //Increment the factorial for the next term in the series
+    }
+    if (print == 1) {
+        printf("Taylor Series Approximation at x = %.2lf with %d terms: %.2lf\n", boundA, numTerms, function);
+    }
+    return function; // returns the value of the function given the specified parameters
+}
+
+// A function that calculates the left Riemann sum using the function generated by the Taylor series function above
+// return the left Riemann sum of the approximated function
+double leftTaylorSum(double boundA, double boundB, int numIntervals, int print) {
+
+    //Same as lefRieSumActual function
+    double δx = (boundB - boundA)/numIntervals;
+    double sum = 0;
+
+    for (int i = 0; i < numIntervals; i++) {
+        double x = boundA + δx*i;
+        //This is the main difference between the two function (other than print statements)
+        //The taylor series function with the highest resolution (numTerms) is used instead of the actual function
+        double y = taylorSeries(x, 10, 0);
+        double area = y * δx;
+        sum += area;
+    }
+    if (print == 1) {
+        printf("Taylor Series Riemann Sum with %d intervals: %.2lf\n", numIntervals, sum);
+    }
+    return  sum;
+}
+
+//Function will calculate and print out the error between the two calculation of the area under the curve (integral) of ht function
+double riemannError(double actualValue, double taylorValue, int numIntervals) {
+    double error = ((taylorValue - actualValue)/actualValue)*100; //Calculation for percent error
+    printf("Error in Riemann Sums with %d intervals: %.2lf%%\n", numIntervals, error);
+    return error;//If all goes well, should not return any errors lol! It's just returning the value of the error between the two functions
+}
