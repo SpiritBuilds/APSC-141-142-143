@@ -1,8 +1,6 @@
 /*
  * Assignment 4 APSC 143
  * Limestone Arrays
- * Mark Gebraiel
- * Student #: 20454310
  * This program compares physical properties of different limestones,
  * calculates flow velocities, and determines relationships between
  * porosity and flow velocity.
