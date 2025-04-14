@@ -2,8 +2,6 @@
  * This code reads values from external and external file, to calculate the value of the Ores
  * Then the program sorts the values and puts them in an output file
  *
- * Student #: 20454310
- * Student Name: Mark Gebraiel
  * APSC 143 Assignment 6 - Searching & Sorting, Memory Management
  *
  */
