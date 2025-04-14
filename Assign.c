@@ -4,8 +4,6 @@
  * This code should determine whether a project is economically feasible and worth pursuing
  * by determining the present value and payback period
  *
- * Student #: 20454310
- * Student Name: Mark Gebraiel
  * APSC 143 Assignment 1
  *
  */
