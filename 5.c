@@ -1,9 +1,7 @@
 /*
  * This Code adds stings to a list and transforms them to acronyms
- * after the acronyms can be searched for their matching string
+ * After the acronyms can be searched for their matching string
  *
- * Student #: 20454310
- * Student Name: Mark Gebraiel
  * APSC 143 Assignment 5 - Strings
  *
  */
